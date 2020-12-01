@@ -31,7 +31,7 @@ function ConnectionForm(props) {
             </div>
             <div className="flex flex-col">
                 <label htmlFor="">Monthly Amount</label>
-                <input type="text" onChange={changeAmt} onBlur={() => { console.log('ran'); validateAmt(); props.changeConnectionDetailsData(obj, props.index) }} value={amt} className={`my-1 py-1 px-1 border ${isAmtValid ? '' : 'border-red-400'} rounded-md focus:border-${isStbValid?'blue':'red'}-400`} placeholder="Customer's Set-top Box Brand"/>
+                <input type="text" onChange={changeAmt} onBlur={() => { validateAmt(); props.changeConnectionDetailsData(obj, props.index) }} value={amt} className={`my-1 py-1 px-1 border ${isAmtValid ? '' : 'border-red-400'} rounded-md focus:border-${isStbValid?'blue':'red'}-400`} placeholder="Customer's Set-top Box Brand"/>
                 <small className={`text-red-400 ${isAmtValid ? 'hidden' : ''}`}>This field can not be empty</small>
             </div>
         </div>

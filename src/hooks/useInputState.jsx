@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
-function defaultValidation(value) {
-    console.log(`Returning ${value.length > 0}`)
+export function defaultValidation(value) {
     return value.length > 0
 }
 
-function useInputState(initialValue='', validationFunction=defaultValidation) {
+function useInputState(initialValue='', validationFunction=defaultValidation, initialIsValid=1) {
     const [value, setValue] = useState(initialValue);
-    const [isValid, setIsValid] = useState(1);
+    const [isValid, setIsValid] = useState(initialIsValid);
 
     function changeValue(e) {
         setValue(e.target.value);
