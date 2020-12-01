@@ -54,7 +54,7 @@ function Customer(props) {
         }
 
         getData();
-    }, [showAddModal, showEditModal]);
+    }, [showAddModal, showEditModal, showViewModal]);
     
     return (
         <PageLayout navBrand='Customers' location={props.path}>
