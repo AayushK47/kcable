@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { navigate } from '@reach/router';
 import axios from 'axios';
 
 import { CustomerContext } from '../context/CustomerContext';
+import { AuthContext } from '../context/AuthContext';
 import Modal from '../components/Modal';
 import Search from '../components/Search';
 import Table from '../components/Table';
@@ -11,10 +13,11 @@ import EditCustomer from '../components/EditCustomer';
 import PageLayout from '../components/PageLayout';
 
 function Customer(props) {
+    const auth = useContext(AuthContext);
     const { showAddModal, toggleAddModal, showViewModal, toggleViewModal, showEditModal, toggleEditModal } = useContext(CustomerContext);
     const [selectedCustomer, setSelectedCustomer] = useState();
     const [data, setData] = useState([]);
-    const headings = ['name', 'address', 'area', '', '']
+    const headings = ['name', 'address', 'area', '', ''];
 
     function changeSelectedCustomer(value){
         setSelectedCustomer(value)
@@ -48,12 +51,23 @@ function Customer(props) {
 
     useEffect(() => {
         async function getData(){
-            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`);
+            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${auth.token}`
+                }
+            });
 
             setData(data.data);
         }
 
-        getData();
+        if(!auth.isLoggedIn || auth.token.length === 0){
+            console.log('reaches here')
+            navigate('/');
+        } else {
+            getData();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showAddModal, showEditModal, showViewModal]);
     
     return (

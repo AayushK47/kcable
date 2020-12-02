@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
+import { AuthContext } from '../context/AuthContext';
+
 function ViewCustomer(props) {
-    console.log(props);
+    const { token } = useContext(AuthContext);
     const [connections, setConnections] = useState(props.customer.connections);
 
     async function deleteConnectionDetails(i) {
         let dummyConn = [...connections];
         dummyConn.splice(i, 1);
         setConnections(dummyConn);
-        const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/customers/${props.customer._id}/${props.customer.connections[i]._id}`);
+        const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/customers/${props.customer._id}/${props.customer.connections[i]._id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
         console.log(response);
     }
 
