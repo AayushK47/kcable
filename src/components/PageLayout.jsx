@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+
+
 import Sidebar from './Sidebar';
 import Header from './Header'
 
 function PageLayout(props) {
+    
     const [isCollapsed, setIsCollapsed] = useState(true);
 
     function toggleCollapsed() {
         setIsCollapsed(!isCollapsed);
     }
+
     return (
         <div className="flex h-screen bg-gray-200">
             <Sidebar location={props.location} isCollapsed={isCollapsed}/>

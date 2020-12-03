@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { navigate } from '@reach/router';
 import axios from 'axios';
 
 import { CustomerContext } from '../context/CustomerContext';
@@ -11,9 +10,10 @@ import AddCustomer from '../components/AddCustomer';
 import ViewCustomer from '../components/ViewCustomer';
 import EditCustomer from '../components/EditCustomer';
 import PageLayout from '../components/PageLayout';
+import { navigate } from '@reach/router';
 
 function Customer(props) {
-    const auth = useContext(AuthContext);
+    const {token, isLoggedIn, expirationDate} = useContext(AuthContext);
     const { showAddModal, toggleAddModal, showViewModal, toggleViewModal, showEditModal, toggleEditModal } = useContext(CustomerContext);
     const [selectedCustomer, setSelectedCustomer] = useState();
     const [data, setData] = useState([]);
@@ -50,25 +50,21 @@ function Customer(props) {
     }
 
     useEffect(() => {
-        async function getData(){
-            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth.token}`
-                }
-            });
-
-            setData(data.data);
-        }
-
-        if(!auth.isLoggedIn || auth.token.length === 0){
-            console.log('reaches here')
+        if(!isLoggedIn || Date(expirationDate) < new Date()){
             navigate('/');
         } else {
-            getData();
+            async function getData(){
+                const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setData(data.data);
+            }
+            setTimeout(getData, 1000)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [showAddModal, showEditModal, showViewModal]);
+    }, [showAddModal, showEditModal, showViewModal, isLoggedIn, token, expirationDate]);
     
     return (
         <PageLayout navBrand='Customers' location={props.path}>

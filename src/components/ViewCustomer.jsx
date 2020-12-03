@@ -1,13 +1,18 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { navigate } from '@reach/router'
 
 import { AuthContext } from '../context/AuthContext';
 
 function ViewCustomer(props) {
-    const { token } = useContext(AuthContext);
+    const { token, logout, expirationDate } = useContext(AuthContext);
     const [connections, setConnections] = useState(props.customer.connections);
 
     async function deleteConnectionDetails(i) {
+        if(Date(expirationDate) < new Date()){
+            logout();
+            navigate('/');
+        }
         let dummyConn = [...connections];
         dummyConn.splice(i, 1);
         setConnections(dummyConn);

@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import useInputState from '../hooks/useInputState';
 
 function LoginPage() {
-    const { toggleIsLoggedIn, setToken } = useContext(AuthContext);
+    const { toggleIsLoggedIn, setToken, setExpirationDate } = useContext(AuthContext);
     const [username, changeUsername, isUsernameValid, validateUsername] = useInputState();
     const [password, changePassword, isPasswordValid, validatePassword] = useInputState();
     const [errorMessage, setErrorMessage] = useState('');
@@ -19,12 +19,18 @@ function LoginPage() {
             });
 
             if(response.status === 200) {
-                console.log(response);
                 toggleIsLoggedIn();
                 setToken(response.data.token);
+                const expDate = new Date(Date.now() + 12096e5);
+                setExpirationDate(expDate);
+                localStorage.setItem('userData', JSON.stringify({
+                    token: response.data.token,
+                    expiresIn: expDate
+                }));
                 navigate('/customer');
             }
         } catch(err){
+            console.log(err);
             setErrorMessage('Invalid username or password. Please try again')
         }
     }

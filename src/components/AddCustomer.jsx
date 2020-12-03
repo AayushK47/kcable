@@ -6,9 +6,10 @@ import { CustomerContext } from '../context/CustomerContext';
 import { AuthContext } from '../context/AuthContext';
 import useInputState from '../hooks/useInputState';
 import useToggle from '../hooks/useToggle';
+import { navigate } from '@reach/router';
 
 function AddCustomer() {
-    const { token } = useContext(AuthContext);
+    const { token, expirationDate, logout } = useContext(AuthContext);
     const { toggleAddModal } = useContext(CustomerContext)
     const [name, changeName, isNameValid, validateName] = useInputState();
     const [mobile, changeMobile, isMobileValid, validateMobile] = useInputState('', (value) => /^\d{10}$/.test(value));
@@ -44,12 +45,17 @@ function AddCustomer() {
             }
             formValidationArray = [...formValidationArray, ...validationArray];
             if(formValidationArray.length === ((connectionDetails.length * 3) + 4 ) && formValidationArray.every((e) => e === true)){
+                if(Date(expirationDate) < new Date()){
+                    logout();
+                    navigate('/');
+                }
                 const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/customers`, obj, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
+                console.log(response);
                 if(response.status === 201){
                     toggleIsSumbissionSuccessful();
                     setTimeout(() => {

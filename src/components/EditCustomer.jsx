@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { navigate } from '@reach/router';
 
 import ConnectionForm from './ConnectionForm';
 import useInputState, { defaultValidation } from '../hooks/useInputState';
@@ -9,7 +10,7 @@ import { AuthContext } from '../context/AuthContext';
 
 function EditCustomer(props) {
     const { toggleEditModal } = useContext(CustomerContext);
-    const { token } = useContext(AuthContext);
+    const { token, expirationDate, logout } = useContext(AuthContext);
     const [name, changeName, isNameValid, validateName] = useInputState(props.customer.name, defaultValidation, true);
     const [mobile, changeMobile, isMobileValid, validateMobile] = useInputState(props.customer.mob_no, (value) => /^\d{10}$/.test(value), true);
     const [address, changeAddress, isAddressValid, validateAddress] = useInputState(props.customer.address, defaultValidation, true);
@@ -38,6 +39,10 @@ function EditCustomer(props) {
             }
             formValidationArray = [...formValidationArray, ...validationArray];
             if(formValidationArray.length === ((connectionDetails.length * 3) + 4 ) && formValidationArray.every((e) => e === true)){
+                if(Date(expirationDate) < new Date()){
+                    logout();
+                    navigate('/');
+                }
                 const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/customers/${props.customer._id}`, obj, {
                     headers: {
                         'Content-Type': 'application/json',

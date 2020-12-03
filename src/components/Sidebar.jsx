@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 function Sidebar(props) {
+    const { logout } = useContext(AuthContext)
     return (
         <div className={`${props.isCollapsed ? 'w-0 hidden': 'w-56'} lg:w-56 sidebar-bg-1 lg:block transition ease-in duration-700`}>
             <div className="flex items-center justify-center">
@@ -27,7 +29,7 @@ function Sidebar(props) {
                         </svg>
                         <span className="mx-3">Payments</span>
                     </a>
-                <a className="lg:hidden nav-item nav-hover">
+                <a onClick={logout} className="lg:hidden nav-item nav-hover">
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
