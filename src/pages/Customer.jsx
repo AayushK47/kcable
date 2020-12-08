@@ -17,6 +17,7 @@ function Customer(props) {
     const { showAddModal, toggleAddModal, showViewModal, toggleViewModal, showEditModal, toggleEditModal } = useContext(CustomerContext);
     const [selectedCustomer, setSelectedCustomer] = useState();
     const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const headings = ['name', 'address', 'area', '', ''];
 
     function changeSelectedCustomer(value){
@@ -35,7 +36,7 @@ function Customer(props) {
 
     function bodyContent() {
         return (
-            data.map(e => {
+            filteredData.map(e => {
                 return (
                     <tr key={e._id}>
                         <td className="border-b px-2 py-3 leading-4 text-xs lg:text-md text-center capitalize font-meduim tracking-wide">{ e.name }</td>
@@ -61,14 +62,15 @@ function Customer(props) {
                     }
                 });
                 setData(data.data);
+                setFilteredData(data.data);
             }
-            setTimeout(getData, 1000)
+            setTimeout(getData, 1000);
         }
     }, [showAddModal, showEditModal, showViewModal, isLoggedIn, token, expirationDate]);
     
     return (
         <PageLayout navBrand='Customers' location={props.path}>
-            <Search />
+            <Search data={data} setData={setFilteredData} />
             <button onClick={toggleAddModal} className="my-5 bg-blue-400 mx-3 px-3 py-2 text-white rounded-md">Add Customer</button>
             <Table data={data} headContent={headContent} bodyContent={bodyContent} />
             { showAddModal ? <Modal toggleModal={toggleAddModal}><AddCustomer /></Modal> : '' }

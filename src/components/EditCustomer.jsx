@@ -112,7 +112,9 @@ function EditCustomer(props) {
                         { connectionDetails }
                     </div>: null
                 }
-                <button onClick={addConnectionForm} className="bg-white rounded-md my-5 px-2 py-1 border font-bold text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400">Add Connection</button>
+                <div className="flex flex-row-reversed">
+                    <button onClick={addConnectionForm} className="bg-white rounded-md my-5 px-2 py-1 border font-bold text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400">Add Connection</button>
+                </div>
             </div>
             <div className="my-1">
             <small className={`${isSumbissionSuccessful ? '' : 'hidden'} text-green-400`}>Customer Details Updated Successfully</small> <br/>

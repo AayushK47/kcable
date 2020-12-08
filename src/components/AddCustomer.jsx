@@ -101,7 +101,7 @@ function AddCustomer() {
                     <small className={`text-red-400 ${isAddressValid ? 'hidden' : ''}`}>This field can not be empty</small>
                 </div>
                 <div className="flex flex-col">
-                    <label htmlFor="">Area</label>
+                    <label htmlFor="">Landmark</label>
                     <input type="text" onChange={changeArea} value={area} onBlur={validateArea} className={`my-1 py-1 px-1 border ${isAreaValid ? '' : 'border-red-400'} rounded-md focus:border-${isAreaValid?'blue':'red'}-400`} placeholder="Customer's Area"/>
                     <small className={`text-red-400 ${isAreaValid ? 'hidden' : ''}`}>This field can not be empty</small>
                 </div>
@@ -109,7 +109,9 @@ function AddCustomer() {
             <div>
                 <h3 className="text-lg mt-5 mb-3">Connection Details</h3>
                 { connectionDetails }
-                <button onClick={ AddConnectionForm } className="bg-white rounded-md px-2 py-1 border font-bold text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400">Add Connection</button>
+                <div className="flex flex-row-reverse">
+                    <button onClick={ AddConnectionForm } className="bg-white rounded-md px-2 py-1 border font-bold text-blue-400 border-blue-400 hover:text-white hover:bg-blue-400">Add Connection</button>
+                </div>
             </div>
             <div className="my-6">
                 <small className={`${isSumbissionSuccessful ? '' : 'hidden'} text-green-400`}>Customer Added Successfully</small> <br/>

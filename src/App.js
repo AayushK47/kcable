@@ -4,9 +4,9 @@ import { Router, navigate } from '@reach/router';
 import './components/PageLayout';
 import Login from './pages/Login';
 import Customer from './pages/Customer';
+import Payments from './pages/Payments';
 import { CustomerContextProvider } from './context/CustomerContext';
 import { AuthContext } from './context/AuthContext';
-import AddCustomer from './components/AddCustomer';
 
 function App() {
   const { toggleIsLoggedIn, setToken, setExpirationDate } = useContext(AuthContext);
@@ -17,7 +17,9 @@ function App() {
       toggleIsLoggedIn();
       setToken(userData.token);
       setExpirationDate(userData.expiresIn);
-      navigate('/customer');
+      if(window.location.pathname === '/'){
+        navigate('/customer');
+      }
     } else {
       navigate('/');
     }
@@ -27,8 +29,8 @@ function App() {
       <CustomerContextProvider>
         <Router>
           <Login path="/" />
-            <Customer path="/customer" />
-          <AddCustomer path='/customer/add' />
+          <Customer path="/customer" />
+          <Payments path='/payments' />
         </Router>
       </CustomerContextProvider>
   );

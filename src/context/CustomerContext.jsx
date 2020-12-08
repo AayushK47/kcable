@@ -7,9 +7,10 @@ export function CustomerContextProvider(props) {
     const [showAddModal, toggleAddModal] = useToggle();
     const [showViewModal, toggleViewModal] = useToggle();
     const [showEditModal, toggleEditModal] = useToggle();
+    const [showPaymentModal, togglePaymentModal] = useToggle();
 
     return (
-        <CustomerContext.Provider value={{ showAddModal, toggleAddModal, showViewModal, toggleViewModal, showEditModal, toggleEditModal }}>
+        <CustomerContext.Provider value={{ showAddModal, toggleAddModal, showViewModal, toggleViewModal, showEditModal, toggleEditModal, showPaymentModal, togglePaymentModal }}>
             {props.children}
         </CustomerContext.Provider>
     )
