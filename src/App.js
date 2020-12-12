@@ -5,6 +5,7 @@ import './components/PageLayout';
 import Login from './pages/Login';
 import Customer from './pages/Customer';
 import Payments from './pages/Payments';
+import Dashboard from './pages/Dashboard';
 import { CustomerContextProvider } from './context/CustomerContext';
 import { AuthContext } from './context/AuthContext';
 
@@ -18,7 +19,7 @@ function App() {
       setToken(userData.token);
       setExpirationDate(userData.expiresIn);
       if(window.location.pathname === '/'){
-        navigate('/customer');
+        navigate('/dashboard');
       }
     } else {
       navigate('/');
@@ -31,6 +32,7 @@ function App() {
           <Login path="/" />
           <Customer path="/customer" />
           <Payments path='/payments' />
+          <Dashboard path='/dashboard' />
         </Router>
       </CustomerContextProvider>
   );

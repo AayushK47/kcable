@@ -60,7 +60,7 @@ function AddCustomer() {
                     toggleIsSumbissionSuccessful();
                     setTimeout(() => {
                         toggleAddModal();
-                    }, 3000)
+                    }, 2000)
                 }
             } else {
                 toggleIsSumbissionValid();

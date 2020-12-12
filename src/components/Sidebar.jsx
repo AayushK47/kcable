@@ -11,13 +11,13 @@ function Sidebar(props) {
                 <span className="text-4xl my-8 text-white font-semibold">Kcable</span>
             </div>
             <nav className="block">
-                <a className={`nav-item nav-hover ${props.location === '/dashboard' ? 'nav-active': ''}`}>
+                <Link to='/dashboard' className={`nav-item nav-hover ${props.location === '/dashboard' ? 'nav-active': ''}`}>
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                     </svg>
                     <span className="mx-3">Dashboard</span>
-                </a>
+                </Link>
                 <Link to='/customer' className={`nav-item nav-hover ${props.location === '/customer' ? 'nav-active': ''}`}>
                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />

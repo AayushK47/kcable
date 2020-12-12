@@ -10,7 +10,6 @@ function LoginPage() {
     const [password, changePassword, isPasswordValid, validatePassword] = useInputState();
     const [errorMessage, setErrorMessage] = useState('');
 
-
     async function onSubmit() {
         try{
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
@@ -27,7 +26,7 @@ function LoginPage() {
                     token: response.data.token,
                     expiresIn: expDate
                 }));
-                navigate('/customer');
+                navigate('/dashboard');
             }
         } catch(err){
             console.log(err);

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
 import useInputState from '../hooks/useInputState';
+import { CustomerContext } from '../context/CustomerContext';
 import useToggle from '../hooks/useToggle';
 
 function PaymentForm(props) {
-    console.log(props);
-    const [amt, changeAmt, isAmtValid, validateAmt] = useInputState(props.data.monthly_amt.toString());
+    const { togglePaymentModal } = useContext(CustomerContext);
+    const [amt, changeAmt, isAmtValid, validateAmt] = useInputState(props.data.monthly_amt.toString(), validateDate, true);
     const date = new Date();
-    const [pDate, changePDate, isPDateValid, validatePDate] = useInputState(`${(date.getDate().toString().length < 2) ? '0' : ''}${date.getDate()}-${(date.getMonth() <= 9) ? '0' : ''}${date.getMonth() + 1}-${date.getFullYear()}`, validateDate);
+    const [pDate, changePDate, isPDateValid, validatePDate] = useInputState(`${(date.getDate().toString().length < 2) ? '0' : ''}${date.getDate()}-${(date.getMonth() <= 9) ? '0' : ''}${date.getMonth() + 1}-${date.getFullYear()}`, validateDate, true);
     const [dueDate, changeDueDate, isDueDateValid, validateDueDate] = useInputState();
     const [isSumbissionValid, toggleIsSumbissionValid] = useToggle();
     const [isSumbissionSuccessful, toggleIsSumbissionSuccessful] = useToggle();
@@ -21,20 +22,16 @@ function PaymentForm(props) {
 
     async function onSubmit() {
         try {
-            validateAmt();
-            validatePDate();
-            validateDueDate();
-
             if(validationArray.length === 3 && validationArray.every(e => e === true)){
                 console.log('submit the form');
                 const [date, month, year] = pDate.split('-');
                 const pay_date = moment(`${year}-${month}-${date}`, 'YYYY-MM-DD').toDate();
-                const d_date = moment(`${year}-${month}-${date}`, 'YYYY-MM-DD').add(30, 'd').toDate();
+                const d_date = moment(`${year}-${month}-${date}`, 'YYYY-MM-DD').add(dueDate, 'd').toDate();
 
                 const obj = {
                     amount: amt,
-                    payment_date: pay_date,
-                    due_date: d_date,
+                    payment_date: pay_date.toISOString(),
+                    due_date: d_date.toISOString(),
                     customer_id: props.data._id
                 }
 
@@ -46,6 +43,9 @@ function PaymentForm(props) {
                 })
                 console.log(response);
                 toggleIsSumbissionSuccessful();
+                setTimeout(togglePaymentModal, 2000);
+            } else {
+                toggleIsSumbissionValid();
             }
         } catch(e) {
             toggleIsSumbissionValid();
