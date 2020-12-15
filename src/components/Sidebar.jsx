@@ -8,7 +8,7 @@ function Sidebar(props) {
     return (
         <div className={`${props.isCollapsed ? 'w-0 hidden': 'w-56'} lg:w-56 sidebar-bg-1 lg:block transition ease-in duration-700`}>
             <div className="flex items-center justify-center">
-                <span className="text-4xl my-8 text-white font-semibold">Kcable</span>
+                <span className="text-4xl my-8 text-white font-semibold">KCable</span>
             </div>
             <nav className="block">
                 <Link to='/dashboard' className={`nav-item nav-hover ${props.location === '/dashboard' ? 'nav-active': ''}`}>

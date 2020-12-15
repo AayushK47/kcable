@@ -11,12 +11,11 @@ function Dashboard(props) {
     const headings = ['customer name', 'stb no', 'mobile no', 'landmark','last payment date', 'payment period', 'Payment due in', ''];
 
     useEffect(() => {
-        async function getData() {
-            const userData = JSON.parse(localStorage.getItem('userData'));
-
-            if(Date(userData.expiresIn) < new Date()){
-                navigate('/');
-            } else {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if(Date(userData.expiresIn) < new Date()){
+            navigate('/');
+        } else {
+            async function getData() {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/dashboard/`, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -25,8 +24,8 @@ function Dashboard(props) {
                 });
                 setData(response.data.docs);
             }
+            setTimeout(getData, 1000);
         }
-        setTimeout(getData, 1000);
     });
 
     function headContent() {
@@ -43,13 +42,11 @@ function Dashboard(props) {
         return (
             data.map(
                 (e, i) => {
-                    console.log(e.payment_date);
                     let payment_date = e.payment_date.length === 0 ? 'N.A' : new Date(e.payment_date);
                     let due_date = e.due_date.length === 0 ? 'N.A' : new Date(e.due_date);
                     let payment_period = moment(due_date).diff(moment(payment_date), 'days');
                     payment_period = isNaN(payment_period) ? 'N.A' : payment_period
                     let due_in = moment(due_date).diff(moment(), 'days') + 1;
-                    console.log(due_in);
 
                     return (
                         <tr key={i}>

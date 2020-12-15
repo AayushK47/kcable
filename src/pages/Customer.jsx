@@ -53,19 +53,18 @@ function Customer(props) {
     useEffect(() => {
         if(!isLoggedIn || Date(expirationDate) < new Date()){
             navigate('/');
-        } else {
-            async function getData(){
-                const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setData(data.data);
-                setFilteredData(data.data);
-            }
-            setTimeout(getData, 1000);
         }
+        async function getData(){
+            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/customers/`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setData(data.data);
+            setFilteredData(data.data);
+        }
+        getData();
     }, [showAddModal, showEditModal, showViewModal, isLoggedIn, token, expirationDate]);
     
     return (
@@ -74,7 +73,7 @@ function Customer(props) {
             <button onClick={toggleAddModal} className="my-5 bg-blue-400 mx-3 px-3 py-2 text-white rounded-md">Add Customer</button>
             <Table data={data} headContent={headContent} bodyContent={bodyContent} />
             { showAddModal ? <Modal toggleModal={toggleAddModal}><AddCustomer /></Modal> : '' }
-            { showViewModal ? <Modal toggleModal={toggleViewModal}><ViewCustomer customer={selectedCustomer}/></Modal> : '' }
+            { showViewModal ? <Modal toggleModal={toggleViewModal}><ViewCustomer token={token} customer={selectedCustomer} customerId={selectedCustomer._id}/></Modal> : '' }
             { showEditModal ? <Modal toggleModal={toggleEditModal}><EditCustomer customer={selectedCustomer}/></Modal> : '' }
         </PageLayout>
     )
