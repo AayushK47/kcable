@@ -49,7 +49,7 @@ function Payments(props) {
                         {
                             filteredData.map((e, i) => 
                                 <tr key={i}>
-                                    <td onClick={() => {setConnections(e.connections); setSelectedCustomer(i)}} className="py-3 border hover:bg-gray-50 px-5">{ e.name }</td>
+                                    <td onClick={() => {setConnections(e.connections); setSelectedCustomer(i)}} className="py-3 border capitalize hover:bg-gray-50 px-5">{ e.name }</td>
                                 </tr>
                             )
                         }
@@ -65,7 +65,7 @@ function Payments(props) {
                         {
                             connections.map((e, i) => 
                                 <tr key={i}>
-                                    <td onClick={() => {togglePaymentModal(); setSelectedConnection(i)}} className="py-3 hover:bg-gray-50 px-5">{e.stb_no} <br/> {e.company}</td>
+                                    <td onClick={() => {togglePaymentModal(); setSelectedConnection(i)}} className="py-3 capitalize hover:bg-gray-50 px-5">{e.stb_no} <br/> {e.company}</td>
                                 </tr>
                             )
                         }
@@ -73,7 +73,7 @@ function Payments(props) {
                     </tbody>
                 </table>
             </div>
-            { showPaymentModal ? <Modal toggleModal={togglePaymentModal}><PaymentForm data={{...connections[selectedConnection], name: customers[selectedCustomer].name}} /></Modal> : null}
+            { showPaymentModal ? <Modal toggleModal={togglePaymentModal}><PaymentForm data={{...connections[selectedConnection], name: filteredData[selectedCustomer].name}} /></Modal> : null}
         </PageLayout>
     )
 }
