@@ -11,6 +11,7 @@ import Search from '../components/Search';
 function Payments(props) {
     const { showPaymentModal, togglePaymentModal } = useContext(CustomerContext);
     const [customers, setCustomers] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [selectedCustomer, setSelectedCustomer] = useState([]);
     const [connections, setConnections] = useState([]);
     const [selectedConnection, setSelectedConnection] = useState(null);
@@ -29,13 +30,14 @@ function Payments(props) {
                     }
                 });
                 setCustomers(response.data.data);
+                setFilteredData(response.data.data);
             }
         }
         setTimeout(getData, 3000);
     }, []);
     return (
         <PageLayout navBrand='Payments' location={props.path}>
-            <Search />
+            <Search data={customers} setData={setFilteredData}/>
             <div className="w-full flex my-5 h-10 h-5/6">
                 <table className="w-1/2 bg-white border-r">
                     <thead>
@@ -45,7 +47,7 @@ function Payments(props) {
                     </thead>
                     <tbody className="border-b">
                         {
-                            customers.map((e, i) => 
+                            filteredData.map((e, i) => 
                                 <tr key={i}>
                                     <td onClick={() => {setConnections(e.connections); setSelectedCustomer(i)}} className="py-3 border hover:bg-gray-50 px-5">{ e.name }</td>
                                 </tr>
